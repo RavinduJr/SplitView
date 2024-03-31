@@ -10,25 +10,26 @@ import UIKit
 class SceneDelegate: UIResponder, UIWindowSceneDelegate {
 
     var window: UIWindow?
-
+    var splitView: UISplitViewController!
 
     func scene(_ scene: UIScene, willConnectTo session: UISceneSession, options connectionOptions: UIScene.ConnectionOptions) {
         // Use this method to optionally configure and attach the UIWindow `window` to the provided UIWindowScene `scene`.
         // If using a storyboard, the `window` property will automatically be initialized and attached to the scene.
         // This delegate does not imply the connecting scene or session are new (see `application:configurationForConnectingSceneSession` instead).
-//        guard let _ = (scene as? UIWindowScene) else { return }
-        print("Cama here")
-        let splitView = UISplitViewController()
-        print("Cama here 12")
+        guard let windowScene = (scene as? UIWindowScene) else { return }
+        window = UIWindow(windowScene: windowScene)
+//        if #available(iOS 14.0, *) {
+//            splitView = UISplitViewController(style: .doubleColumn)
+//        } else {
+//            // Fallback on earlier versions
+//        }
+        splitView = UISplitViewController()
         let mainVC = MainViewController()
-        print("Cama here 1")
         let secondaryVC = SecondaryViewController()
-        print("Cama here 3")
-        splitView.viewControllers = [mainVC, secondaryVC]
-        print("Cama here 4")
-        self.window?.rootViewController = splitView
-        print("Cama here 5")
-        self.window?.makeKeyAndVisible()
+        splitView.preferredDisplayMode = .oneBesideSecondary
+        splitView.viewControllers = [UINavigationController(rootViewController: mainVC), secondaryVC]
+        window?.rootViewController = splitView
+        window?.makeKeyAndVisible()
     }
 
     func sceneDidDisconnect(_ scene: UIScene) {
